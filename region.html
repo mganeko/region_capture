@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Region Capture</title>
+  </head>
+  <body>
+    <!--
+      Post:
+        https://developer.chrome.com/docs/web-platform/region-capture/
+
+      Spec:
+        https://w3c.github.io/mediacapture-region/
+    -->
+    <div>
+      <button id="start_capture" onclick="startCapture()">start</button>&nbsp;
+      <button id="stop_capture" onclick="stopCapture()">stop</button>
+      <br />
+      <video id="local_video" width="320px" height="240px" volume="0" style="border: solid black 1px;"></video>
+    </div>
+    <div id="caputre_area">
+      <textarea id="text_area" rows="5" cols="40">>capture here</textarea>
+    </div>
+    <script>
+      const localVideo = document.querySelector('#local_video');
+      const captureArea = document.querySelector('#caputre_area');
+      let cropTarget = null;
+
+      async function startCapture() {
+        cropTarget = await CropTarget.fromElement(captureArea);
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          preferCurrentTab: true,
+        });
+        const [videoTrack] = stream.getVideoTracks();
+        await videoTrack.cropTo(cropTarget);
+        localVideo.srcObject = stream;
+        await localVideo.play();
+        console.log('started');
+      }
+
+      function stopCapture() {
+        console.log('stop capture');
+        localVideo.pause();
+        if (localVideo.srcObject) {
+          localVideo.srcObject.getTracks().forEach( track => track.stop());
+        }
+      }
+    </script>
+  </body>
+</html>
