@@ -6,6 +6,9 @@
   </head>
   <body>
     <!--
+      Relase note:
+        https://groups.google.com/g/discuss-webrtc/c/PZxgk-aUFhw
+
       Post:
         https://developer.chrome.com/docs/web-platform/region-capture/
 
@@ -42,7 +45,7 @@
         console.log('stop capture');
         localVideo.pause();
         if (localVideo.srcObject) {
-          localVideo.srcObject.getTracks().forEach( track => track.stop());
+          localVideo.srcObject.getTracks().forEach(track => track.stop());
         }
       }
     </script>
