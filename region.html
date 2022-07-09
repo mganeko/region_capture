@@ -22,7 +22,10 @@
       <video id="local_video" width="320px" height="240px" volume="0" style="border: solid black 1px;"></video>
     </div>
     <div id="caputre_area" style="width:480px; border: solid gray 1px">
-      <textarea id="text_area" rows="10" cols="40">capture here</textarea>
+      <span>この領域がキャプチャーされます / Capture Target</span>
+      <textarea id="text_area" rows="10" cols="40">Type any text.
+自由に編集してください
+      </textarea>
     </div>
     <script>
       const localVideo = document.querySelector('#local_video');
@@ -46,6 +49,7 @@
         localVideo.pause();
         if (localVideo.srcObject) {
           localVideo.srcObject.getTracks().forEach(track => track.stop());
+          ocalVideo.srcObject = null;
         }
       }
     </script>
