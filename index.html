@@ -36,16 +36,22 @@
   </div>
   <script>
     const localVideo = document.querySelector('#local_video');
-    const captureArea = document.querySelector('#caputre_area');
-    let cropTarget = null;
 
     async function startCapture() {
-      cropTarget = await CropTarget.fromElement(captureArea);
+      // 対象となるDOM要素(div)を取得、そこから領域を指定する CropTargetを生成
+      const captureArea = document.querySelector('#caputre_area');
+      const cropTarget = await CropTarget.fromElement(captureArea);
+
+      // 画面共有（現在のタブを選択する）
       const stream = await navigator.mediaDevices.getDisplayMedia({
         preferCurrentTab: true,
       });
+
+      // ビデオトラックを取得し、領域を切り取る
       const [videoTrack] = stream.getVideoTracks();
       await videoTrack.cropTo(cropTarget);
+
+      // ビデオ要素で再生する
       localVideo.srcObject = stream;
       await localVideo.play();
       console.log('started');
